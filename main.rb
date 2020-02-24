@@ -139,7 +139,7 @@ def multiply_els(arr)
   end
 end
 
-example_one = %w('one', 'two', 'three', 'four', 'five')
+example_one = %w(one two three four five)
 p 'my each test'
 example_one.my_each do |items|
   puts "show #{items}"
