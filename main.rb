@@ -1,5 +1,7 @@
 module Enumerable
+
   def my_each
+    
     return to_enum unless block_given?
     y = 0
     arr = to_a
