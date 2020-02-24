@@ -111,33 +111,33 @@ module Enumerable
   end
 end
 
-#example_one = ["one","two","three","four","five"]
-#p 'my each test'
-#example_one.my_each do |items|
-#  p "show #{items}"
-#end
-#p 'my each with index test' 
-#example_one.my_each_with_index { |n, i| p "number : #{i+1} is: #{n}" }
-#p 'my select test' 
-#p [1, 2, 4, 5, 8, 11].my_select { |n| n > 2 }
-#p 'my all test' 
-#p example_one.my_all?{|a| a.length > 2}
-#p 'any test' 
-#p [2, 1].my_any?
-#p 'none test' 
-#p [example_one].my_none?{|x| x = "three"}
-#p 'my count test' 
-#p example_one.my_count("one")
-#p 'my map test' 
-#p ["1","2","3","4"].my_map{|x| x.to_i}
-#puts 'EXAMPLE MY_INJECT' 
-#puts [1, 2, 3].my_inject { |sum, n| sum - n } 
-#c =  proc { |sum, n| sum + n } 
-#puts [1, 2].my_inject(c)
-#puts [2, 4, 5].my_inject{ |sum, n| sum + n } 
-#puts [1, 2, 3, 4].my_inject(:*)
-#puts [1, 2 , 3].my_inject(5,c)
-#puts [5, 6 , 7].my_inject(5,:-)
+example_one = ["one","two","three","four","five"]
+p 'my each test'
+example_one.my_each do |items|
+  p "show #{items}"
+end
+p 'my each with index test' 
+example_one.my_each_with_index { |n, i| p "number : #{i+1} is: #{n}" }
+p 'my select test' 
+p [1, 2, 4, 5, 8, 11].my_select { |n| n > 2 }
+p 'my all test' 
+p example_one.my_all?{|a| a.length > 2}
+p 'any test' 
+p [2, 1].my_any?
+p 'none test' 
+p [example_one].my_none?{|x| x = "three"}
+p 'my count test' 
+p example_one.my_count("one")
+p 'my map test' 
+p ["1","2","3","4"].my_map{|x| x.to_i}
+puts 'EXAMPLE MY_INJECT' 
+puts [1, 2, 3].my_inject { |sum, n| sum - n } 
+c =  proc { |sum, n| sum + n } 
+puts [1, 2].my_inject(c)
+puts [2, 4, 5].my_inject{ |sum, n| sum + n } 
+puts [1, 2, 3, 4].my_inject(:*)
+puts [1, 2 , 3].my_inject(5,c)
+puts [5, 6 , 7].my_inject(5,:-)
 
 def multiply_els(arr)
   part = rand(1..3)
