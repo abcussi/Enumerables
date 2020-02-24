@@ -1,6 +1,7 @@
 module Enumerable
   def my_each
     return to_enum unless block_given?
+
     y = 0
     arr = to_a
     while y < arr.length
@@ -8,9 +9,10 @@ module Enumerable
       y += 1
     end
   end
-  
+
   def my_each_with_index
     return to_enum unless block_given?
+
     y = 0
     arr = to_a
     while y < arr.length
@@ -20,6 +22,7 @@ module Enumerable
   end
   def my_select
     return to_enum unless block_given?
+
     access = []
     my_each do |val|
       access << val if yield val
@@ -28,6 +31,7 @@ module Enumerable
   end
   def my_all?
     return (my_all? { |a| !a.nil? }) unless block_given?
+
     my_each do |a|
       return false unless yield a
     end
@@ -35,6 +39,7 @@ module Enumerable
   end
   def my_any?
     return (my_any? { |x| !x.nil? }) unless block_given?
+
     my_each do |value|
       return true if yield value
     end
@@ -42,6 +47,7 @@ module Enumerable
   end
   def my_none?
     return (my_none? { |x| !x.nil? }) unless block_given?
+
     my_each do |val|
       return false if yield val
     end
@@ -62,6 +68,7 @@ module Enumerable
   end
   def my_map
     return to_enum unless block_given?
+    
     new_array = []
     my_each do |value|
       new_array << (yield value)
