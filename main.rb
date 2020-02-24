@@ -129,20 +129,20 @@ end
 def multiply_els(arr)
   part = rand(1..3)
   case part
-  when 1 
+  when 1
     arr.my_inject { |total, a| total * a }
-  when 2 
+  when 2
     arr.my_inject(:*)
-  when 3 
+  when 3
     by_proc = proc { |total, a| total * a }
     arr.my_inject(by_proc)
   end
 end
 
-example_one = ["one","two","three","four","five"]
+example_one = %w("one", "two", "three", "four", "five")
 p 'my each test'
 example_one.my_each do |items|
-  p "show #{items}"
+  puts "show #{items}"
 end
 p 'my each with index test' 
 example_one.my_each_with_index { |n, i| p "number : #{i+1} is: #{n}" }
