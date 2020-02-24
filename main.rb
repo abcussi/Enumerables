@@ -1,7 +1,5 @@
 module Enumerable
-
   def my_each
-    
     return to_enum unless block_given?
     y = 0
     arr = to_a
@@ -87,14 +85,12 @@ module Enumerable
     end
     total
   end
-
   def symbol_inject(param, temp_arr)
     symbols = [[:+, '+'], [:-, '-'], [:*, '*'], [:/, '/'], [:**, '**'], [:&, '&&'], [:|, '||']]
     symbols.my_each do |value|
       return temp_arr.my_inject { |total, a| total.method(value[1]).call(a) } if param == value[0]
     end
   end
-
   def compare_params(types, params)
     new_params = Array.new(types.length, nil)
     i = types.length - 1
@@ -110,6 +106,18 @@ module Enumerable
       i -= 1
     end
     new_params
+  end
+end
+def multiply_els(arr)
+  part = rand(1..3)
+  case part
+  when 1 
+    arr.my_inject { |total, a| total * a }
+  when 2 
+    arr.my_inject(:*)
+  when 3 
+    by_proc = proc { |total, a| total * a }
+    arr.my_inject(by_proc)
   end
 end
 
@@ -140,18 +148,4 @@ puts [2, 4, 5].my_inject{ |sum, n| sum + n }
 puts [1, 2, 3, 4].my_inject(:*)
 puts [1, 2 , 3].my_inject(5,c)
 puts [5, 6 , 7].my_inject(5,:-)
-
-def multiply_els(arr)
-  part = rand(1..3)
-  case part
-  when 1 
-    arr.my_inject { |total, a| total * a }
-  when 2 
-    arr.my_inject(:*)
-  when 3 
-    by_proc = proc { |total, a| total * a }
-    arr.my_inject(by_proc)
-  end
-end
-
 puts multiply_els([2, 4, 5])
