@@ -20,6 +20,7 @@ module Enumerable
       y += 1
     end
   end
+
   def my_select
     return to_enum unless block_given?
 
@@ -29,6 +30,7 @@ module Enumerable
     end
     access
   end
+
   def my_all?
     return (my_all? { |a| !a.nil? }) unless block_given?
 
@@ -37,6 +39,7 @@ module Enumerable
     end
     true
   end
+
   def my_any?
     return (my_any? { |x| !x.nil? }) unless block_given?
 
@@ -45,6 +48,7 @@ module Enumerable
     end
     false
   end
+
   def my_none?
     return (my_none? { |x| !x.nil? }) unless block_given?
 
@@ -53,6 +57,7 @@ module Enumerable
     end
     true
   end
+
   def my_count(nval = nil)
     cont = 0
     if !nval.nil?
@@ -66,15 +71,17 @@ module Enumerable
     end
     cont
   end
+
   def my_map
     return to_enum unless block_given?
-    
+
     new_array = []
     my_each do |value|
       new_array << (yield value)
     end
     new_array
   end
+
   def my_inject(nval = nil, nsym = nil, nproc = nil)
     temp_arr = to_a
     params = compare_params([temp_arr[0], :+, proc {}], [nval, nsym, nproc])
@@ -93,12 +100,14 @@ module Enumerable
     end
     total
   end
+
   def symbol_inject(param, temp_arr)
     symbols = [[:+, '+'], [:-, '-'], [:*, '*'], [:/, '/'], [:**, '**'], [:&, '&&'], [:|, '||']]
     symbols.my_each do |value|
       return temp_arr.my_inject { |total, a| total.method(value[1]).call(a) } if param == value[0]
     end
   end
+
   def compare_params(types, params)
     new_params = Array.new(types.length, nil)
     i = types.length - 1
@@ -116,6 +125,7 @@ module Enumerable
     new_params
   end
 end
+
 def multiply_els(arr)
   part = rand(1..3)
   case part
