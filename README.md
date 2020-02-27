@@ -1,18 +1,18 @@
-# bubble-sort-ruby
+# enumerable methods
 
-First Ruby Microverse Project By Ángel Cussi &amp; Oscar Russi
+Second Ruby Microverse Project By Ángel Cussi 
 
 ![screenshot](./screenshot.png)
 
-# Bubble sort on Ruby 
+# enumerable methods
 
-First Microverse project for Ruby Curriculum
+Second Microverse project for Ruby Curriculum
 
 # What it does
 
-Two methods for organizing an array using bubble sort algorithm. The first method doesnt use blocks, the second method use blocks.
+try to simulate all of the ennumerable methods in ruby.
 
-## Built With
+## Built 
 
 - Ruby
 
@@ -20,7 +20,7 @@ Two methods for organizing an array using bubble sort algorithm. The first metho
 
 ## Live Demo
 
-[Live Demo](https://repl.it/@yoxter3423/bubble-sort-ruby) (not working until merge with master)
+[Live Demo](https://repl.it/github/abcussi/Enumerables)
 
 ## Authors
 
@@ -28,10 +28,6 @@ Two methods for organizing an array using bubble sort algorithm. The first metho
 - Github: [@profile](https://github.com/abcussi)
 - Twitter: [@profile](https://twitter.com/thecussi)
 - Linkedin: [profile](https://www.linkedin.com/in/angel-cussi-1b2310174/)
-
-**Oscar Russi**
-- Github: [@andresporras3423](https://github.com/andresporras3423/)
-- Linkedin: [Oscar Russi](https://www.linkedin.com/in/oscar-andr%C3%A9s-russi-porras-053236167/)
 
 ## 🤝 Contributing
 
