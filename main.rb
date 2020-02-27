@@ -41,7 +41,7 @@ module Enumerable
     end
     true
   end
-  
+
   def test_parm(par)
     if par.class == Class
       my_all? { |x| x.class == par }
