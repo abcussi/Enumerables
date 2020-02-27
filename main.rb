@@ -52,36 +52,57 @@ module Enumerable
     end
   end
 
-  def my_any?
-    return (my_any? { |x| !x.nil? }) unless block_given?
+  def my_any?(par = nil)
+    return test_param_any(par) unless par.nil?
 
-    my_each do |value|
-      return true if yield value
+    return (my_any? { |x| !x.nil? && x != false }) unless block_given?
+
+    my_each do |a|
+      return true if yield a
     end
     false
   end
 
-  def my_none?
-    return (my_none? { |x| !x.nil? }) unless block_given?
+  def test_param_any(par)
+    if par.class == Class
+      my_any? { |x| x.class == par }
+    elsif par.class == Regexp
+      my_any? { |x| x =~ par }
+    else
+      my_any? { |x| x == par }
+    end
+  end
 
-    my_each do |val|
-      return false if yield val
+  def my_none?(par = nil)
+    return test_par_none(par) unless par.nil?
+
+    return (my_none? { |x| !x.nil? && x != false }) unless block_given?
+
+    my_each do |a|
+      return false if yield a
     end
     true
   end
 
-  def my_count(nval = nil)
-    cont = 0
-    if !nval.nil?
-      my_each do |value|
-        cont += 1 if nval == value
-      end
+  def test_par_none(par)
+    if par.class == Class
+      my_none? { |x| x.class == par }
+    elsif par.class == Regexp
+      my_none? { |x| x =~ par }
     else
-      my_each do
-        cont += 1
-      end
+      my_none? { |x| x == par }
     end
-    cont
+  end
+
+  def my_count(par = nil)
+    cnt = 0
+    return my_count { |x| x == par } unless par.nil?
+    return (my_count { |_x| true }) unless block_given?
+
+    my_each do |a|
+      cnt += 1 if yield a
+    end
+    cnt
   end
 
   def my_map
