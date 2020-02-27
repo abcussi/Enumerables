@@ -31,13 +31,25 @@ module Enumerable
     access
   end
 
-  def my_all?
-    return (my_all? { |a| !a.nil? }) unless block_given?
+  def my_all?(par = nil)
+    return test_parm(par) unless par.nil?
+
+    return (my_all? { |x| !x.nil? && x != false }) unless block_given?
 
     my_each do |a|
       return false unless yield a
     end
     true
+  end
+  
+  def test_parm(par)
+    if par.class == Class
+      my_all? { |x| x.class == par }
+    elsif par.class == Regexp
+      my_all? { |x| x =~ par }
+    else
+      my_all? { |x| x == par }
+    end
   end
 
   def my_any?
