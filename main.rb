@@ -73,25 +73,8 @@ module Enumerable
     end
   end
 
-  def my_none?(par = nil)
-    return test_par_none(par) unless par.nil?
-
-    return (my_none? { |x| !x.nil? && x != false }) unless block_given?
-
-    my_each do |a|
-      return false if yield a
-    end
-    true
-  end
-
-  def test_par_none(par)
-    if par.class == Class
-      my_none? { |x| x.class == par }
-    elsif par.class == Regexp
-      my_none? { |x| x =~ par }
-    else
-      my_none? { |x| x == par }
-    end
+  def my_none?(arg = nil, &block)
+    !my_any?(arg = nil,&block)
   end
 
   def my_count(par = nil)
@@ -137,16 +120,7 @@ end
 end
 
 def multiply_els(arr)
-  part = rand(1..3)
-  case part
-  when 1
-    arr.my_inject { |total, a| total * a }
-  when 2
-    arr.my_inject(:*)
-  when 3
-    by_proc = proc { |total, a| total * a }
-    arr.my_inject(by_proc)
-  end
+  arr.my_inject(:*)
 end
 
 puts multiply_els([2, 4, 5])
