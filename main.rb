@@ -53,7 +53,7 @@ module Enumerable
   end
 
   def my_any?(par = nil)
-    return test_param_any(par) unless par.nil?
+    return Parm_any(par) unless par.nil?
 
     return (my_any? { |x| !x.nil? && x != false }) unless block_given?
 
@@ -63,7 +63,7 @@ module Enumerable
     false
   end
 
-  def test_param_any(par)
+  def Parm_any(par)
     if par.class == Class
       my_any? { |x| x.class == par }
     elsif par.class == Regexp
@@ -73,8 +73,15 @@ module Enumerable
     end
   end
 
-  def my_none?(_arg = nil, &block)
-    !my_any?(_arg = nil, &block)
+  def my_none?(pattern = nil)
+    if block_given?
+      !my_any? { |x| yield x }
+    elsif pattern
+      !my_any?(pattern)
+    else
+      my_each { |x| return false if x }
+      true
+    end
   end
 
   def my_count(par = nil)
@@ -98,24 +105,24 @@ module Enumerable
     arr
   end
 
-  def my_inject(int = nil, sym = nil)
-    x = 1
-    res = self[0]
-    sym, int = int, sym if int.is_a? Symbol
-    if int
-      res = int
-      x = 0
-    end
+  def my_inject(init = nil, sym = nil, &block)
+    unless block_given?
+      return inject_sym(init) if init.class == Symbol
+      return inject_sym(sym, init) if sym
 
-    while x < length
-      res = if block_given?
-              yield res, self[x]
-            else
-              res.send(sym, self[x])
-            end
-      x += 1
+      raise 'No block nor symbol given'
     end
-    res
+    return self[1..length].my_inject(self[0], &block) unless init
+
+    my_each { |x| init = block.call(init, x) }
+    init
+  end
+
+  def inject_sym(sym, init = nil)
+    return self[1..length].inject_sym(sym, self[0]) unless init
+
+    my_each { |x| init = init.send sym, x }
+    init
   end
 end
 
@@ -124,3 +131,6 @@ def multiply_els(arr)
 end
 
 puts multiply_els([2, 4, 5])
+puts ['false','true',""].my_none?(/z/)
+puts ["one", "", "true"].my_none?(/f/)
+puts [1,false,"hello"].my_none?(Integer)
