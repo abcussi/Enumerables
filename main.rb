@@ -73,8 +73,8 @@ module Enumerable
     end
   end
 
-  def my_none?(arg = nil, &block)
-    !my_any?(arg = nil,&block)
+  def my_none?(_arg = nil, &block)
+    !my_any?(_arg = nil, &block)
   end
 
   def my_count(par = nil)
@@ -88,7 +88,7 @@ module Enumerable
     cnt
   end
 
-  def my_map (*parm)
+  def my_map(*_parm)
     return to_enum unless block_given?
 
     arr = []
@@ -97,26 +97,26 @@ module Enumerable
     end
     arr
   end
-  
-  def my_inject(int = nil, sym = nil)
-  x = 1
-  res = self[0]
-  sym, int = int, sym if int.is_a? Symbol
-  if int
-    res = int
-    x = 0
-  end
 
-  while x < length
-    res = if block_given?
-             yield res, self[x]
-           else
-             res.send(sym, self[x])
-           end
-    x += 1
+  def my_inject(int = nil, sym = nil)
+    x = 1
+    res = self[0]
+    sym, int = int, sym if int.is_a? Symbol
+    if int
+      res = int
+      x = 0
+    end
+
+    while x < length
+      res = if block_given?
+              yield res, self[x]
+            else
+              res.send(sym, self[x])
+            end
+      x += 1
+    end
+    res
   end
-  res
-end
 end
 
 def multiply_els(arr)
