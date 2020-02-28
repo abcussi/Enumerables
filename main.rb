@@ -105,58 +105,35 @@ module Enumerable
     cnt
   end
 
-  def my_map
+  def my_map (*parm)
     return to_enum unless block_given?
 
-    new_array = []
-    my_each do |value|
-      new_array << (yield value)
+    arr = []
+    my_each do |val|
+      arr << (yield val)
     end
-    new_array
+    arr
+  end
+  
+  def my_inject(int = nil, sym = nil)
+  x = 1
+  res = self[0]
+  sym, int = int, sym if int.is_a? Symbol
+  if int
+    res = int
+    x = 0
   end
 
-  def my_inject(nval = nil, nsym = nil, nproc = nil)
-    temp_arr = to_a
-    params = compare_params([temp_arr[0], :+, proc {}], [nval, nsym, nproc])
-    total = nil
-    temp_arr.unshift(params[0]) unless params[0].nil?
-    return symbol_inject(params[1], temp_arr) unless params[1].nil?
-
-    temp_arr.my_each_with_index do |value, index|
-      total = if index.zero?
-                value
-              elsif params[2].nil?
-                yield total, value
-              else
-                params[2].call(total, value)
-              end
-    end
-    total
+  while x < length
+    res = if block_given?
+             yield res, self[x]
+           else
+             res.send(sym, self[x])
+           end
+    x += 1
   end
-
-  def symbol_inject(param, temp_arr)
-    symbols = [[:+, '+'], [:-, '-'], [:*, '*'], [:/, '/'], [:**, '**'], [:&, '&&'], [:|, '||']]
-    symbols.my_each do |value|
-      return temp_arr.my_inject { |total, a| total.method(value[1]).call(a) } if param == value[0]
-    end
-  end
-
-  def compare_params(types, params)
-    new_params = Array.new(types.length, nil)
-    i = types.length - 1
-    while i >= 0
-      j = 0
-      while j < params.length
-        if types[i].class == params[j].class
-          new_params[i] = params[j]
-          break
-        end
-        j += 1
-      end
-      i -= 1
-    end
-    new_params
-  end
+  res
+end
 end
 
 def multiply_els(arr)
