@@ -53,7 +53,7 @@ module Enumerable
   end
 
   def my_any?(par = nil)
-    return Parm_any(par) unless par.nil?
+    return parm_any(par) unless par.nil?
 
     return (my_any? { |x| !x.nil? && x != false }) unless block_given?
 
@@ -63,7 +63,7 @@ module Enumerable
     false
   end
 
-  def Parm_any(par)
+  def parm_any(par)
     if par.class == Class
       my_any? { |x| x.class == par }
     elsif par.class == Regexp
@@ -131,6 +131,6 @@ def multiply_els(arr)
 end
 
 puts multiply_els([2, 4, 5])
-puts ['false','true',""].my_none?(/z/)
-puts ["one", "", "true"].my_none?(/f/)
-puts [1,false,"hello"].my_none?(Integer)
+puts ['false', 'true', ''].my_none?(/z/)
+puts ['one', '', 'true'].my_none?(/f/)
+puts [1, false, 'hello'].my_none?(Integer)
