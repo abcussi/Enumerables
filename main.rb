@@ -105,24 +105,47 @@ module Enumerable
     arr
   end
 
-  def my_inject(init = nil, sym = nil, &block)
-    unless block_given?
-      return inject_sym(init) if init.class == Symbol
-      return inject_sym(sym, init) if sym
+  def my_inject(nval = nil, nsym = nil, nproc = nil)
+    temp_arr = to_a
+    params = compare_params([temp_arr[0], :+, proc {}], [nval, nsym, nproc])
+    total = nil
+    temp_arr.unshift(params[0]) unless params[0].nil?
+    return symbol_inject(params[1], temp_arr) unless params[1].nil?
 
-      raise 'No block nor symbol given'
+    temp_arr.my_each_with_index do |value, index|
+      total = if index.zero?
+                value
+              elsif params[2].nil?
+                yield total, value
+              else
+                params[2].call(total, value)
+              end
     end
-    return self[1..length].my_inject(self[0], &block) unless init
-
-    my_each { |x| init = block.call(init, x) }
-    init
+    total
   end
 
-  def inject_sym(sym, init = nil)
-    return self[1..length].inject_sym(sym, self[0]) unless init
+  def symbol_inject(param, temp_arr)
+    symbols = [[:+, '+'], [:-, '-'], [:*, '*'], [:/, '/'], [:**, '**'], [:&, '&&'], [:|, '||']]
+    symbols.my_each do |value|
+      return temp_arr.my_inject { |total, a| total.method(value[1]).call(a) } if param == value[0]
+    end
+  end
 
-    my_each { |x| init = init.send sym, x }
-    init
+  def compare_params(types, params)
+    new_params = Array.new(types.length, nil)
+    i = types.length - 1
+    while i >= 0
+      j = 0
+      while j < params.length
+        if types[i].class == params[j].class
+          new_params[i] = params[j]
+          break
+        end
+        j += 1
+      end
+      i -= 1
+    end
+    new_params
   end
 end
 
@@ -131,6 +154,3 @@ def multiply_els(arr)
 end
 
 puts multiply_els([2, 4, 5])
-puts ['false', 'true', ''].my_none?(/z/)
-puts ['one', '', 'true'].my_none?(/f/)
-puts [1, false, 'hello'].my_none?(Integer)
